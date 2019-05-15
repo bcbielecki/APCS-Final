@@ -1,2 +1,2 @@
-# APCS Final Project @Pioneer High School
+# APCS Final Project @Pioneer High
 It's not a cover name.
