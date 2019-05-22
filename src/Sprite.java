@@ -26,6 +26,10 @@ public abstract class Sprite {
 		y += vy;
 	}
 	
+	public Image getImg() {
+		return img;
+	}
+	
 	public int getX() {
 		return x;
 	}
