@@ -1,11 +1,10 @@
-import javafx.scene.image.Image;
-
 /**
  * 
  * @author Benjamen Bielecki, Dennis Perepech
  * @version 1.0
  * 
  */
+import javafx.scene.image.Image;
 
 public abstract class Obstacle extends Sprite {
 	
