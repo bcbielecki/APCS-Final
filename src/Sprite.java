@@ -10,12 +10,15 @@ public abstract class Sprite {
 
 	protected int x, y;
 	protected double vx, vy;
+	protected int w, h;
 	Image img;
 	
 	
-	public Sprite(Image img, int x, int y, int vx, int vy) {
+	public Sprite(Image img, int x, int y, int w, int h, int vx, int vy) {
 		this.x = x;
 		this.y = y;
+		this.w = w;
+		this.h = h;
 		this.vx = vx;
 		this.vy = vy;
 		this.img = img;
