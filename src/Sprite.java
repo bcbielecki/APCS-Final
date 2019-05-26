@@ -8,19 +8,20 @@ import javafx.scene.image.Image;
 
 public abstract class Sprite {
 
-	protected int x, y;
+	protected double x, y;
 	protected double vx, vy;
-	protected int w, h;
+	protected double initVX, initVY;
+	protected double w, h;
 	Image img;
 	
 	
-	public Sprite(Image img, int x, int y, int w, int h, int vx, int vy) {
+	public Sprite(Image img, double x, double y, double w, double h, double vx, double vy) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
-		this.vx = vx;
-		this.vy = vy;
+		this.initVX = vx;
+		this.initVY = vy;
 		this.img = img;
 	}
 	
@@ -29,24 +30,37 @@ public abstract class Sprite {
 		y += vy;
 	}
 	
+	public void changeVel(double vx, double vy) {
+		this.vx = vx;
+		this.vy = vy;
+	}
+	
 	public Image getImg() {
 		return img;
 	}
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 	
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 	
+	public double getWidth() {
+		return w;
+	}
+	
+	public double getHeight() {
+		return h;
+	}
+	
 	public double getVX() {	
-		return vx;
+		return initVX;
 	}
 	
 	public double getVY() {
-		return vy;
+		return initVY;
 	}
 	
 }

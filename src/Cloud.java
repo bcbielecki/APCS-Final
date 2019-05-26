@@ -26,4 +26,9 @@ public class Cloud extends Obstacle {
 		}
 		return img;
 	}
+	
+	@Override
+	public boolean checkCollision(Sprite sprite) {
+		return false;
+	}
 }

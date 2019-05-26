@@ -4,8 +4,10 @@
  * @version 1.0
  * 
  */
-
 import javafx.scene.text.*;
+
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,38 +31,74 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
 
-
 public class TakeOff extends Application {
+	private int screenWidth, screenHeight;
+	private Player player;
 	
 	public TakeOff() {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		screenWidth = gd.getDisplayMode().getWidth();
+		screenHeight = gd.getDisplayMode().getHeight();
+		
+		player = new Player(60, 60, 25, 250, 5, 5);
 	}
 	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		//create the canvas
-		Canvas canvas = new Canvas(1280, 720);
+		Canvas canvas = new Canvas(screenWidth, screenHeight);
 		canvas.setFocusTraversable(true);
 		
 		//Create GraphicContext object
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		//Loop frequency
-		Timeline tme = new Timeline(new KeyFrame(Duration.millis(15), e -> run(gc)));
+		Timeline tme = new Timeline(new KeyFrame(Duration.millis(20), e -> run(gc)));
 		tme.setCycleCount(Timeline.INDEFINITE);
 		
-		//handle click events
+
 		primaryStage.setTitle("TakeOff");
 		primaryStage.setScene(new Scene(new StackPane(canvas)));
 		primaryStage.show();
-		
 		primaryStage.setFullScreen(true);
+		tme.play(); 
 		
-		tme.play();
+	      // handle key events
+        canvas.setOnKeyPressed(e -> {
+        	if(player.getY() < 0 || player.getX() < 0 || player.getY() > screenHeight || player.getX() > screenWidth) {
+        		player.changeVel(0, 0);
+        	} else if(e.getCode() == KeyCode.W && player.getY() > 0) {
+                player.changeVel(0, -player.getVY());
+            } else if (e.getCode() == KeyCode.A && player.getX() > 0) {
+                player.changeVel(-player.getVX(), 0);
+            } else if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
+                player.changeVel(0, player.getVY());
+            } else if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
+                player.changeVel(player.getVX(), 0);
+            }
+        });
+
+        canvas.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.W) {
+                player.changeVel(0, 0);
+            } else if (e.getCode() == KeyCode.A) {
+                player.changeVel(0, 0);
+            } else if (e.getCode() == KeyCode.S) {
+                player.changeVel(0, 0);
+            } else if (e.getCode() == KeyCode.D) {
+                player.changeVel(0, 0);
+            }
+        });
 	}
 	
+		
+	//Loop method
 	private void run(GraphicsContext gc) {
-		Color c = Color.rgb(77, 198, 61);
-        gc.setFill(c);
+		gc.setFill(Color.WHITE);
+		gc.fillRect(0, 0, screenWidth, screenHeight);
+		player.move();
+		player.draw(gc);
 	}
 	
 	//Run application
