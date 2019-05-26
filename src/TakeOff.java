@@ -41,7 +41,7 @@ public class TakeOff extends Application {
 		screenWidth = gd.getDisplayMode().getWidth();
 		screenHeight = gd.getDisplayMode().getHeight();
 		
-		player = new Player(60, 60, 25, 250, 5, 5);
+		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 25, 250, 5, 5);
 	}
 	
 
