@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
@@ -66,9 +67,8 @@ public class TakeOff extends Application {
 		
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
-        	if(player.getY() < 0 || player.getX() < 0 || player.getY() > screenHeight || player.getX() > screenWidth) {
-        		player.changeVel(0, 0);
-        	} else if(e.getCode() == KeyCode.W && player.getY() > 0) {
+        	if(e.getCode() == KeyCode.W) {
+        		if(player.getY() > 0)
                 player.changeVel(0, -player.getVY());
             } else if (e.getCode() == KeyCode.A && player.getX() > 0) {
                 player.changeVel(-player.getVX(), 0);
@@ -97,8 +97,11 @@ public class TakeOff extends Application {
 	private void run(GraphicsContext gc) {
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, screenWidth, screenHeight);
-		player.move();
+		player.move(gc);
 		player.draw(gc);
+		gc.strokeRect(player.getX(), player.getY(), player.getWidth(),  player.getHeight());
+		
+		
 	}
 	
 	//Run application

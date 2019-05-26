@@ -4,6 +4,7 @@
  * @version 1.0
  * 
  */
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public abstract class Sprite {
@@ -25,7 +26,10 @@ public abstract class Sprite {
 		this.img = img;
 	}
 	
-	public void move() {
+	public void move(GraphicsContext gc) {
+		if((y < 0 && vy < 0) || (y > gc.getCanvas().getHeight() - h && vy > 0) || (x < 0 && vx < 0) || (x > gc.getCanvas().getWidth() - w && vx > 0)) {
+			return;
+		}
 		x += vx;
 		y += vy;
 	}
@@ -37,6 +41,10 @@ public abstract class Sprite {
 	
 	public Image getImg() {
 		return img;
+	}
+	
+	public void draw(GraphicsContext gc) {
+		gc.drawImage(img, x, y, w, h);
 	}
 	
 	public double getX() {

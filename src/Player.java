@@ -32,10 +32,6 @@ public class Player extends Sprite {
 		}
 		return img;
 	}
-	
-	public void draw(GraphicsContext gc) {
-		gc.drawImage(img, x, y, w, h);
-	}
 
 
 }
