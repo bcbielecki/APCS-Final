@@ -47,6 +47,11 @@ public abstract class Sprite {
 		gc.drawImage(img, x, y, w, h);
 	}
 	
+	public double[][] getCornerCoords() {
+		double[][] coords = {{x, y}, {x + w, y}, {x, y + h}, {x + w, y + h}};
+		return coords;
+	}
+	
 	public double getX() {
 		return x;
 	}

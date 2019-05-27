@@ -32,6 +32,8 @@ public class Player extends Sprite {
 		}
 		return img;
 	}
+	
+	
 
 
 }

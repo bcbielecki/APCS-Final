@@ -35,6 +35,7 @@ import javafx.scene.input.KeyCode;
 public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
+	private Cloud cloud;
 	
 	public TakeOff() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -42,6 +43,7 @@ public class TakeOff extends Application {
 		screenHeight = gd.getDisplayMode().getHeight();
 		
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 25, 250, 5, 5);
+		cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
 	}
 	
 
@@ -95,13 +97,17 @@ public class TakeOff extends Application {
 		
 	//Loop method
 	private void run(GraphicsContext gc) {
-		gc.setFill(Color.WHITE);
+		gc.setFill(Color.rgb(119, 193, 239));
 		gc.fillRect(0, 0, screenWidth, screenHeight);
 		player.move(gc);
 		player.draw(gc);
+		
+		cloud.draw(gc);
+		gc.setStroke(Color.WHITE);
 		gc.strokeRect(player.getX(), player.getY(), player.getWidth(),  player.getHeight());
-		
-		
+		gc.strokeRect(cloud.getX(), cloud.getY(), cloud.getWidth(), cloud.getHeight());
+		gc.setFill(Color.WHITE);
+		gc.fillText(String.valueOf(cloud.checkCollision(player)), 500, 500);
 	}
 	
 	//Run application
