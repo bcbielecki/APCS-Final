@@ -23,16 +23,13 @@ public abstract class Sprite {
 		this.h = h;
 		this.initVX = vx;
 		this.initVY = vy;
+		this.vx = vx;
+		this.vy = vy;
 		this.img = img;
 	}
 	
-	public void move(GraphicsContext gc) {
-		if((y < 0 && vy < 0) || (y > gc.getCanvas().getHeight() - h && vy > 0) || (x < 0 && vx < 0) || (x > gc.getCanvas().getWidth() - w && vx > 0)) {
-			return;
-		}
-		x += vx;
-		y += vy;
-	}
+	
+	public abstract void move(GraphicsContext gc);
 	
 	public void changeVel(double vx, double vy) {
 		this.vx = vx;
@@ -74,6 +71,14 @@ public abstract class Sprite {
 	
 	public double getVY() {
 		return initVY;
+	}
+	
+	public void setX(double x) {
+		this.x = x;
+	}
+	
+	public void setY(double y) {
+		this.y = y;
 	}
 	
 }

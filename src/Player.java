@@ -23,6 +23,15 @@ public class Player extends Sprite {
 
 	}
 	
+	@Override
+	public void move(GraphicsContext gc) {
+		if((y < 0 && vy < 0) || (y > gc.getCanvas().getHeight() - h && vy > 0) || (x < 0 && vx < 0) || (x > gc.getCanvas().getWidth() - w && vx > 0)) {
+			return;
+		}
+		x += vx;
+		y += vy;
+	}
+	
 	public static Image getImage() {
 		Image img = null;
 		try {

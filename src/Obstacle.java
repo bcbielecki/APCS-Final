@@ -4,17 +4,26 @@
  * @version 1.0
  * 
  */
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public abstract class Obstacle extends Sprite {
 	
-	public Obstacle(Image img, int x, int y, int w, int h, int vx, int vy) {
+	public Obstacle(Image img, double x, double y, double w, double h, double vx, double vy) {
 		super(img, x, y, w, h, vx, vy);
 	}
 	
 	public abstract boolean checkCollision(Sprite sprite);
 	
-	public boolean checkSegmentOverlap(double x, double y, double i, double j, double a, double b, double c, double d) {
+	public void move(GraphicsContext gc) {
+		x += vx;
+		y += vy;
+		if(y > gc.getCanvas().getHeight() + 10) {
+			setX(Math.random() * gc.getCanvas().getWidth());
+			setY(Math.random() * 20 - 20);
+		}
+	}
+	/*public boolean checkSegmentOverlap(double x, double y, double i, double j, double a, double b, double c, double d) {
 		double t;
 		double u; 
 		double rs = ((i - x) * (d - b) - (j - y) * (c - a));
@@ -31,4 +40,37 @@ public abstract class Obstacle extends Sprite {
 		}
 		return false;
 	}
+		double[][] coords = getCornerCoords();
+		double[][] spriteCoords = sprite.getCornerCoords();
+		double x, y, i, j, a, b, c, d;
+		for(int k = 0; k < coords.length; k++) { 
+			x = coords[k][0];
+			y = coords[k][1];
+			if(k == getCornerCoords().length - 1) {
+				i = coords[0][0];
+				j = coords[0][1]; 
+			}
+			else {
+				i = coords[k + 1][0];
+				j = coords[k + 1][1];
+			}
+			for(int l = 0; l < spriteCoords.length; l++) {
+				a = spriteCoords[l][0];
+				b = spriteCoords[l][1];
+				
+				if(l == getCornerCoords().length - 1) {
+					c = spriteCoords[0][0];
+					d = spriteCoords[0][1]; 
+				}
+				else {
+					c = spriteCoords[l + 1][0];
+					d = spriteCoords[l + 1][1];
+				}
+				if(checkSegmentOverlap(x, y, i, j, a, b, c, d)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}*/
 }
