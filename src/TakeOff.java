@@ -39,14 +39,14 @@ public class TakeOff extends Application {
 	
 	public TakeOff() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		screenWidth = gd.getDisplayMode().getWidth();
+		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
 		
-		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 25, 250, 5, 5);
+		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 50, 500);
 		//cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
 		cloud = new Cloud[10];
-		for(int i = 0; i < 10; i++) {
-			cloud[i] = new Cloud(Math.random() * screenWidth, Math.random() * 20 - 20, 100.0, 50.0, 0, 10.0);
+		for(int i = 0; i < 5; i++) {
+			cloud[i] = new Cloud(Math.random() * screenWidth, Math.random() * 20 - 20, 200.0, 100.0, 0, 10.0);
 		}
 	}
 	
@@ -75,25 +75,25 @@ public class TakeOff extends Application {
         canvas.setOnKeyPressed(e -> {
         	if(e.getCode() == KeyCode.W) {
         		if(player.getY() > 0)
-                player.changeVel(0, -player.getVY());
-            } else if (e.getCode() == KeyCode.A && player.getX() > 0) {
-                player.changeVel(-player.getVX(), 0);
-            } else if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
-                player.changeVel(0, player.getVY());
-            } else if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
-                player.changeVel(player.getVX(), 0);
+                player.setVY(-5f);
+            }if (e.getCode() == KeyCode.A && player.getX() > 0) {
+                player.setVX(-5f);
+            }if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
+                player.setVY(5f);
+            }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
+                player.setVX(5f);
             }
         });
 
         canvas.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.W) {
-                player.changeVel(0, 0);
+            	player.setVY(0f);
             } else if (e.getCode() == KeyCode.A) {
-                player.changeVel(0, 0);
+            	player.setVX(0f);
             } else if (e.getCode() == KeyCode.S) {
-                player.changeVel(0, 0);
+            	player.setVY(0f);
             } else if (e.getCode() == KeyCode.D) {
-                player.changeVel(0, 0);
+            	player.setVX(0f);
             }
         });
 	}

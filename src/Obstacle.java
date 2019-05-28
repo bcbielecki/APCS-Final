@@ -19,8 +19,8 @@ public abstract class Obstacle extends Sprite {
 		x += vx;
 		y += vy;
 		if(y > gc.getCanvas().getHeight() + 10) {
-			setX(Math.random() * gc.getCanvas().getWidth());
-			setY(Math.random() * 20 - 20);
+			x = (Math.random() * gc.getCanvas().getWidth());
+			y = (Math.random() * 20 - 20);
 		}
 	}
 	/*public boolean checkSegmentOverlap(double x, double y, double i, double j, double a, double b, double c, double d) {

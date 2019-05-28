@@ -31,11 +31,6 @@ public abstract class Sprite {
 	
 	public abstract void move(GraphicsContext gc);
 	
-	public void changeVel(double vx, double vy) {
-		this.vx = vx;
-		this.vy = vy;
-	}
-	
 	public Image getImg() {
 		return img;
 	}
@@ -73,12 +68,12 @@ public abstract class Sprite {
 		return initVY;
 	}
 	
-	public void setX(double x) {
-		this.x = x;
+	public void setVX(double vx) {
+		this.vx = vx;
 	}
 	
-	public void setY(double y) {
-		this.y = y;
+	public void setVY(double vy) {
+		this.vy = vy;
 	}
 	
 }
