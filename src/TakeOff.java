@@ -42,11 +42,11 @@ public class TakeOff extends Application {
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
 		
-		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 50, 500);
+		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
 		//cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
-		cloud = new Cloud[10];
-		for(int i = 0; i < 5; i++) {
-			cloud[i] = new Cloud(Math.random() * screenWidth, Math.random() * 20 - 20, 200.0, 100.0, 0, 10.0);
+		cloud = new Cloud[3];
+		for(int i = 0; i < 3; i++) {
+			cloud[i] = new Cloud(Math.random() * screenWidth, Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0);
 		}
 	}
 	
@@ -73,8 +73,7 @@ public class TakeOff extends Application {
 		
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
-        	if(e.getCode() == KeyCode.W) {
-        		if(player.getY() > 0)
+        	if(e.getCode() == KeyCode.W && player.getY() > 0) {
                 player.setVY(-5f);
             }if (e.getCode() == KeyCode.A && player.getX() > 0) {
                 player.setVX(-5f);
@@ -109,7 +108,7 @@ public class TakeOff extends Application {
 		gc.setStroke(Color.WHITE);
 		gc.strokeRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 3; i++) {
 			cloud[i].move(gc);
 			cloud[i].draw(gc);
 			gc.strokeRect(cloud[i].getX(), cloud[i].getY(), cloud[i].getWidth(), cloud[i].getHeight());
