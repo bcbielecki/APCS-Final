@@ -36,11 +36,15 @@ public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
 	private Cloud[] cloud;
+	//private boolean gameOver = false;
+	private int counter;
 	
 	public TakeOff() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
+		
+		counter = 0;
 		
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
 		//cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
@@ -62,8 +66,9 @@ public class TakeOff extends Application {
 		
 		//Loop frequency
 		Timeline tme = new Timeline(new KeyFrame(Duration.millis(20), e -> run(gc)));
+		Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> counter++));
 		tme.setCycleCount(Timeline.INDEFINITE);
-		
+		clock.setCycleCount(Timeline.INDEFINITE);
 
 		primaryStage.setTitle("TakeOff");
 		primaryStage.setScene(new Scene(new StackPane(canvas)));
@@ -81,7 +86,7 @@ public class TakeOff extends Application {
                 player.setVY(5f);
             }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
                 player.setVX(5f);
-            }
+        	}
         });
 
         canvas.setOnKeyReleased(e -> {
@@ -96,6 +101,7 @@ public class TakeOff extends Application {
             }
         });
 	}
+        
 	
 		
 	//Loop method
