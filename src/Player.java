@@ -12,15 +12,25 @@ import javafx.scene.image.Image;
  */
 
 public class Player extends Sprite {
-	public Player(double x, double y, double w, double h, double vx, double vy) {
-		super(getImage(), x, y, w, h, vx, vy);
-		changeVel(0.0, 0.0);
+	public Player(double x, double y, double w, double h) {
+		super(getImage(), x, y, w, h, 0, 0);
 
 	}
 	
-	public Player(double x, double y, double vx, double vy) {
-		super(getImage(), x, y, getImage().getWidth(), getImage().getHeight(), vx, vy);
+	public Player(double x, double y) {
+		super(getImage(), x, y, getImage().getWidth(), getImage().getHeight(), 0, 0);
 
+	}
+	
+	
+	public static Image getImage() {
+		Image img = null;
+		try {
+			img = new Image(new FileInputStream("media/images/playerObjects/saturnV.gif"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return img;
 	}
 	
 	@Override
@@ -31,16 +41,7 @@ public class Player extends Sprite {
 		x += vx;
 		y += vy;
 	}
-	
-	public static Image getImage() {
-		Image img = null;
-		try {
-			img = new Image(new FileInputStream("media/images/playerObjects/saturnV.png"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return img;
-	}
+
 	
 	
 
