@@ -23,7 +23,7 @@ public class ObstacleGen {
 		obstacles = new ArrayList<Obstacle>();
 		
 		obstacles.add(new Cloud(Math.random() * gc.getCanvas().getWidth(), Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0));
-		//obstacles.add(new Cloud(Math.random() * gc.getCanvas().getWidth(), Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0));
+		obstacles.add(new Cloud(Math.random() * gc.getCanvas().getWidth(), Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0));
 		obstacles.add(new Cloud(Math.random() * gc.getCanvas().getWidth(), Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0));
 	}
 	
@@ -32,12 +32,15 @@ public class ObstacleGen {
 	
 	public void moveAll() {
 		for(int i = 0; i < obstacles.size(); i++) {
+			while(checkCollisionAllObstacles(obstacles.get(i), i)) {
+				obstacles.get(i).setX(Math.random() * (gc.getCanvas().getWidth() - (Math.random() * obstacles.get(i).getWidth())));
+				obstacles.get(i).setY((0 - (gc.getCanvas().getHeight() * 1.25) - (2 * obstacles.get(i).getHeight())) * Math.random());
+			}
+			
 			obstacles.get(i).move(gc);
 			if(obstacles.get(i).getY() > gc.getCanvas().getHeight() + 50) {
-				do {
-					obstacles.get(i).setX(Math.random() * gc.getCanvas().getWidth());
-					obstacles.get(i).setY((0 - obstacles.get(i).getHeight() - 20) * Math.random());
-			} while(checkCollisionAllObstacles(obstacles.get(i), i));
+				obstacles.get(i).setX(Math.random() * (gc.getCanvas().getWidth() - (Math.random() * obstacles.get(i).getWidth())));
+				obstacles.get(i).setY((0 - (gc.getCanvas().getHeight() * 1.25) - (2 * obstacles.get(i).getHeight())) * Math.random());
 			}
 		}
 	}
