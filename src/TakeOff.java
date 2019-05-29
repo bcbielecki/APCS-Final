@@ -36,7 +36,6 @@ public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
 	//private boolean gameOver = false;
-	private int counter;
 	private ObstacleGen obstacleGen;
 	
 	public TakeOff() {
@@ -44,10 +43,8 @@ public class TakeOff extends Application {
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
 		
-		counter = 0;
 		
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
-		//cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
 	}
 	
 
@@ -63,8 +60,8 @@ public class TakeOff extends Application {
 		obstacleGen = new ObstacleGen(gc);
 		
 		//Loop frequency
-		Timeline tme = new Timeline(new KeyFrame(Duration.millis(20), e -> run(gc)));
-		Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> counter++));
+		Timeline tme = new Timeline(new KeyFrame(Duration.millis(16.66), e -> run(gc)));
+		Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> obstacleGen.counterAdd()));
 		tme.setCycleCount(Timeline.INDEFINITE);
 		clock.setCycleCount(Timeline.INDEFINITE);
 
@@ -114,6 +111,8 @@ public class TakeOff extends Application {
 		
 		gc.setFill(Color.BLACK);
 		gc.fillText("" + obstacleGen.checkCollisionAll(player), 50, 50);
+		gc.fillText("" + obstacleGen.getCounter(), 100, 50);
+		System.out.println(obstacleGen.getCounter());
 		
 		gc.setStroke(Color.WHITE);
 		gc.strokeRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
