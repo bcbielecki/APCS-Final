@@ -35,9 +35,9 @@ import javafx.scene.input.KeyCode;
 public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
-	private Cloud[] cloud;
 	//private boolean gameOver = false;
 	private int counter;
+	private ObstacleGen obstacleGen;
 	
 	public TakeOff() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -48,10 +48,6 @@ public class TakeOff extends Application {
 		
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
 		//cloud = new Cloud(screenWidth / 2, screenHeight / 2, 100, 50, 5, 5);
-		cloud = new Cloud[3];
-		for(int i = 0; i < 3; i++) {
-			cloud[i] = new Cloud(Math.random() * screenWidth, Math.random() * 20 - 20, 200.0, 100.0, 0, 5.0);
-		}
 	}
 	
 
@@ -63,6 +59,8 @@ public class TakeOff extends Application {
 		
 		//Create GraphicContext object
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
+		obstacleGen = new ObstacleGen(gc);
 		
 		//Loop frequency
 		Timeline tme = new Timeline(new KeyFrame(Duration.millis(20), e -> run(gc)));
@@ -111,17 +109,14 @@ public class TakeOff extends Application {
 		player.move(gc);
 		player.draw(gc);
 		
+		obstacleGen.drawAll();
+		obstacleGen.moveAll();
+		
+		gc.setFill(Color.BLACK);
+		gc.fillText("" + obstacleGen.checkCollisionAll(player), 50, 50);
+		
 		gc.setStroke(Color.WHITE);
 		gc.strokeRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-		
-		for(int i = 0; i < 3; i++) {
-			cloud[i].move(gc);
-			cloud[i].draw(gc);
-			gc.strokeRect(cloud[i].getX(), cloud[i].getY(), cloud[i].getWidth(), cloud[i].getHeight());
-			gc.setFill(Color.BLACK);
-			gc.fillText(String.valueOf(cloud[i].checkCollision(player)), 500, 500);
-			System.out.println(cloud[i].checkCollision(player));
-		}
 	}
 	
 	//Run application

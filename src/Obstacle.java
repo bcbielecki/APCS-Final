@@ -18,10 +18,6 @@ public abstract class Obstacle extends Sprite {
 	public void move(GraphicsContext gc) {
 		x += vx;
 		y += vy;
-		if(y > gc.getCanvas().getHeight() + 10) {
-			x = (Math.random() * gc.getCanvas().getWidth());
-			y = (Math.random() * 20 - 20);
-		}
 	}
 	/*public boolean checkSegmentOverlap(double x, double y, double i, double j, double a, double b, double c, double d) {
 		double t;

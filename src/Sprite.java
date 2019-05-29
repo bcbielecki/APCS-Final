@@ -76,4 +76,12 @@ public abstract class Sprite {
 		this.vy = vy;
 	}
 	
+	public void setX(double x) {
+		this.x = x; 
+	}
+	
+	public void setY(double y) {
+		this.y = y; 
+	}
+	
 }
