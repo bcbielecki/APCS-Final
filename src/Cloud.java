@@ -28,14 +28,31 @@ public class Cloud extends Obstacle {
 	}
 	
 	@Override
+	public boolean checkPlayerCollision(Sprite sprite) {
+        if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
+            return false; 
+        } 
+        if (y + 0.25 * h < sprite.getY() || sprite.getY() + sprite.getHeight() < y + 0.25 * h) { 
+            return false; 
+        } 
+        return true; 
+	}
+	
+	@Override
 	public boolean checkCollision(Sprite sprite) {
         if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
             return false; 
         } 
-        if (y < sprite.getY() || sprite.getY() + sprite.getHeight() < y) { 
+        if (y + h < sprite.getY() || sprite.getY() + sprite.getHeight() < y + h) { 
             return false; 
         } 
         return true; 
-
 	}
+	
+	@Override
+	public double[][] getCornerCoords() {
+		double[][] coords = {{x, y + 0.25 * h}, {x + w, y + 0.25 * h}, {x, y + h}, {x + w, y + h}};
+		return coords;
+	}
+	
 }

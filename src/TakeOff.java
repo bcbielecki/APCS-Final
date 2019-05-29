@@ -111,12 +111,12 @@ public class TakeOff extends Application {
 		obstacleGen.moveAll();
 		
 		gc.setFill(Color.BLACK);
-		gc.fillText("" + obstacleGen.checkCollisionAll(player), 50, 50);
+		gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
 		gc.fillText("" + obstacleGen.getCounter(), 100, 50);
 		System.out.println(obstacleGen.getCounter());
 		
 		gc.setStroke(Color.WHITE);
-		gc.strokeRect(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+		gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
 	}
 	
 	//Run application

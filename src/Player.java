@@ -41,9 +41,4 @@ public class Player extends Sprite {
 		x += vx;
 		y += vy;
 	}
-
-	
-	
-
-
 }

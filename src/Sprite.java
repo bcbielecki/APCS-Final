@@ -6,6 +6,7 @@
  */
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public abstract class Sprite {
 
@@ -37,8 +38,11 @@ public abstract class Sprite {
 	
 	public void draw(GraphicsContext gc) {
 		gc.drawImage(img, x, y, w, h);
+		gc.setFill(Color.WHITE);
+		gc.strokeRect(getCornerCoords()[0][0], getCornerCoords()[0][1], getCornerCoords()[1][0] - getCornerCoords()[0][0], getCornerCoords()[2][1] - getCornerCoords()[1][1]);
 	}
 	
+
 	public double[][] getCornerCoords() {
 		double[][] coords = {{x, y}, {x + w, y}, {x, y + h}, {x + w, y + h}};
 		return coords;
