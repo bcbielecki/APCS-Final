@@ -70,6 +70,7 @@ public class TakeOff extends Application {
 		primaryStage.show();
 		primaryStage.setFullScreen(true);
 		tme.play(); 
+		clock.play();
 		
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
