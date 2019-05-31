@@ -28,7 +28,7 @@ public class Cloud extends Obstacle {
 	}
 	
 	@Override
-	public boolean checkPlayerCollision(Sprite sprite) {
+	public boolean checkPlayerCollision(Player sprite) {
         if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
             return false; 
         } 

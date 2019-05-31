@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -27,7 +28,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
@@ -102,8 +107,30 @@ public class TakeOff extends Application {
 		
 	//Loop method
 	private void run(GraphicsContext gc) {
-		gc.setFill(Color.rgb(119, 193, 239));
-		gc.fillRect(0, 0, screenWidth, screenHeight);
+		
+        Stop[] stops = new Stop[] { new Stop(0, Color.rgb(119, 193, 239))};
+        LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
+        
+		if(obstacleGen.getCounter() >= 0 && obstacleGen.getCounter() < obstacleGen.STAGE_1) {
+					}
+		else if(obstacleGen.getCounter() > obstacleGen.STAGE_1 && obstacleGen.getCounter() < obstacleGen.STAGE_2) {
+			stops = new Stop[] { new Stop(0, Color.rgb(119, 193, 239)), new Stop(1, Color.BLACK)};
+	        lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
+			
+		}
+		else if(obstacleGen.getCounter() > obstacleGen.STAGE_2 && obstacleGen.getCounter() < obstacleGen.STAGE_3) {
+			
+		}
+		else if(obstacleGen.getCounter() > obstacleGen.STAGE_3 && obstacleGen.getCounter() < obstacleGen.STAGE_4) {
+			
+		}
+		else if(obstacleGen.getCounter() > obstacleGen.STAGE_4) {
+			
+		}
+		
+        gc.setFill(lg1);
+        gc.fillRect(0, 0, screenWidth, screenHeight);
+        
 		player.move(gc);
 		player.draw(gc);
 		

@@ -15,7 +15,7 @@ public abstract class Obstacle extends Sprite {
 	
 	public abstract boolean checkCollision(Sprite sprite);
 	
-	public abstract boolean checkPlayerCollision(Sprite sprite);
+	public abstract boolean checkPlayerCollision(Player sprite);
 	
 	public void move(GraphicsContext gc) {
 		x += vx;
