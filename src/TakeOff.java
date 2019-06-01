@@ -184,29 +184,7 @@ public class TakeOff extends Application {
 			b = bVals[2] + (int) ((bVals[3] - bVals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
 			r2 = r2Vals[2] + (int) ((r2Vals[3] - r2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
 			g2 = g2Vals[2] + (int) ((g2Vals[3] - g2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
-			b2 = b2Vals[2] + (int) ((b2Vals[3] - b2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
-
-			gc.setFill(Color.BLACK);
-			gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
-
-			if(obstacleGen.checkCollisionPlayerAll(player)) {
-				gameOver = true;
-				gc.fillText("NICE JOB! YOU LASTED " + obstacleGen.getCounter() + " SECONDS!", 50, 200);
-			}
-
-			gc.fillText("" + obstacleGen.getCounter(), 100, 50);
-			System.out.println(obstacleGen.getCounter());
-
-			if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 240 && obstacleGen.getCounter() % 10 == 0) {
-				obstacleGen.makeHarder();
-			}
-			else if(obstacleGen.getCounter() % 11 == 0) {
-				obstacleGen.makeReadyToUpdate();
-			}
-
-
-			gc.setStroke(Color.WHITE);
-			gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
+			b2 = b2Vals[2] + (int) ((b2Vals[3] - b2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));		
 		}
 		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_4) {
 
@@ -214,6 +192,27 @@ public class TakeOff extends Application {
 
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
+	    
+	    gc.setFill(Color.BLACK);
+		gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
+
+		if(obstacleGen.checkCollisionPlayerAll(player)) {
+			gameOver = true;
+			gc.fillText("NICE JOB! YOU LASTED " + obstacleGen.getCounter() + " SECONDS!", 50, 200);
+		}
+
+		gc.fillText("" + obstacleGen.getCounter(), 100, 50);
+		System.out.println(obstacleGen.getCounter());
+		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 240 && obstacleGen.getCounter() % 10 == 0) {
+			obstacleGen.makeHarder();
+		}
+		else if(obstacleGen.getCounter() % 11 == 0) {
+			obstacleGen.makeReadyToUpdate();
+		}
+
+
+		gc.setStroke(Color.WHITE);
+		gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
 
