@@ -14,11 +14,11 @@ public class ObstacleGen {
 	private GraphicsContext gc;
 	private List<Obstacle> obstacles;
 	private int counter;
-	private int initialSpawn = 10;
-	public final int STAGE_1 = 3000;
-	public final int STAGE_2 = 6000;
-	public final int STAGE_3 = 9000;
-	public final int STAGE_4 = 10000;
+	private int initialSpawn = 8;
+	public final int STAGE_1 = 30000;
+	public final int STAGE_2 = 60000;
+	public final int STAGE_3 = 90000;
+	public final int STAGE_4 = 120000;
 	
 	private double speedIncrease;
 	private boolean readyToUpdate;
@@ -52,8 +52,18 @@ public class ObstacleGen {
 	public void spawn() {
 		Obstacle obs = null;
 		if(counter >= 0 && counter < STAGE_1) {
-			if(Math.random() < 0.7) {
-				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+			if(Math.random() < 0.5) {
+				obs = new Balloon(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * gc.getCanvas().getHeight() - 90.0,
+						28.0, 90, 0, Math.random() + 1 + speedIncrease);
+			}
+			else {
+				obs = new Kite(0 - 55 - Math.random() * 55, Math.random() * gc.getCanvas().getHeight(),
+						37, 120, 1.0 + speedIncrease, 1.0 + speedIncrease);
+			}
+		}
+		else if(counter >= STAGE_1 && counter < STAGE_2) {
+			if(Math.random() < 0.5) {
+				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2) - 200,
 						200.0, 100.0, 0, 2 * Math.random() + 2.0 + speedIncrease);
 			}
 			else {
@@ -61,20 +71,16 @@ public class ObstacleGen {
 						200, 58, -4.0 - speedIncrease, 1.0 + speedIncrease);
 			}
 		}
-		else if(counter >= STAGE_1 && counter < STAGE_2) {
-			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
-					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
-		}
 		else if(counter >= STAGE_2 && counter < STAGE_3) {
-			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2),
 					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
 		else if(counter >= STAGE_3 && counter < STAGE_4) {
-			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2),
 					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
 		else if(counter >= STAGE_4) {
-			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2),
 					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
 
@@ -108,14 +114,22 @@ public class ObstacleGen {
 			else {
 				if(obstacles.get(i).fromTop()) {
 					while(checkCollisionAllObstacles(obstacles.get(i), i)) {
-						obstacles.get(i).setX(Math.random() * (gc.getCanvas().getWidth() - obstacles.get(i).getWidth()));
 						obstacles.get(i).setY(Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * obstacles.get(i).getHeight());
+						obstacles.get(i).setY(Math.random() * -1 * gc.getCanvas().getHeight() * 2 - obstacles.get(i).getHeight());
 					}
 				}
 				else {
-					while(checkCollisionAllObstacles(obstacles.get(i), i)) {
-						obstacles.get(i).setX(gc.getCanvas().getWidth() + Math.random() * obstacles.get(i).getWidth());
-						obstacles.get(i).setY(Math.random() * gc.getCanvas().getHeight());
+					if(obstacles.get(i).getVX() < 0) {
+						while(checkCollisionAllObstacles(obstacles.get(i), i)) {
+							obstacles.get(i).setX(gc.getCanvas().getWidth() + Math.random() * obstacles.get(i).getWidth());
+							obstacles.get(i).setY(Math.random() * gc.getCanvas().getHeight());
+						}
+					}
+					else {
+						while(checkCollisionAllObstacles(obstacles.get(i), i)) {
+							obstacles.get(i).setX(0 - obstacles.get(i).getWidth() - Math.random() * obstacles.get(i).getWidth());
+							obstacles.get(i).setY(Math.random() * gc.getCanvas().getHeight());
+						}
 					}
 				}
 			}
@@ -139,6 +153,9 @@ public class ObstacleGen {
 			speedIncrease += 0.1;
 			spawn();
 			readyToUpdate = false;
+			for(int i = 0; i < obstacles.size(); i++) {
+				obstacles.get(i).setVY(obstacles.get(i).getVY() + speedIncrease);
+			}
 		}
 	}
 
@@ -154,7 +171,7 @@ public class ObstacleGen {
 	}
 
 	public void counterAdd() {
-		counter++;
+		counter += 10;
 	}
 
 	public int getCounter() {

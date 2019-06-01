@@ -48,7 +48,7 @@ public class Cloud extends Obstacle {
         if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
             return false; 
         } 
-        if (y + h < sprite.getY() || sprite.getY() + sprite.getHeight() < y + h) { 
+        if (y + h < sprite.getY() || sprite.getY() + sprite.getHeight() < y) { 
             return false; 
         } 
         return true; 
