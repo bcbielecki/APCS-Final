@@ -43,6 +43,14 @@ public class TakeOff extends Application {
 	//private boolean gameOver = false;
 	private ObstacleGen obstacleGen;
 	
+	int[] rVals = {240, 0, 0, 0};
+	int[] gVals = {245, 10, 0, 0};
+	int[] bVals = {250, 96, 0, 0};
+	int[] r2Vals = {120, 240, 0, 0};
+	int[] g2Vals = {190, 245, 10, 0};
+	int[] b2Vals = {250, 250, 96, 0};
+	
+	
 	public TakeOff() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth()/2;
@@ -66,7 +74,7 @@ public class TakeOff extends Application {
 		
 		//Loop frequency
 		Timeline tme = new Timeline(new KeyFrame(Duration.millis(16.66), e -> run(gc)));
-		Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> obstacleGen.counterAdd()));
+		Timeline clock = new Timeline(new KeyFrame(Duration.millis(10), e -> obstacleGen.counterAdd()));
 		tme.setCycleCount(Timeline.INDEFINITE);
 		clock.setCycleCount(Timeline.INDEFINITE);
 
@@ -108,26 +116,54 @@ public class TakeOff extends Application {
 	//Loop method
 	private void run(GraphicsContext gc) {
 		
-        Stop[] stops = new Stop[] { new Stop(0, Color.rgb(119, 193, 239))};
-        LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
+		int r = 0;
+		int g = 0;
+		int b = 0;
+		int r2 = 0;
+		int g2 = 0;
+		int b2 = 0;
+		
+ 
         
 		if(obstacleGen.getCounter() >= 0 && obstacleGen.getCounter() < obstacleGen.STAGE_1) {
-					}
-		else if(obstacleGen.getCounter() > obstacleGen.STAGE_1 && obstacleGen.getCounter() < obstacleGen.STAGE_2) {
-			stops = new Stop[] { new Stop(0, Color.rgb(119, 193, 239)), new Stop(1, Color.BLACK)};
-	        lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
+			r = rVals[0];
+			g = gVals[0];
+			b = bVals[0];
+			r2 = r2Vals[0] + (int) ((r2Vals[1] - r2Vals[0]) * (double) obstacleGen.getCounter()/obstacleGen.STAGE_1);
+			g2 = g2Vals[0] + (int) ((g2Vals[1] - g2Vals[0]) * (double) obstacleGen.getCounter()/obstacleGen.STAGE_1);
+			b2 = b2Vals[0];
+		}
+		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_1 && obstacleGen.getCounter() < obstacleGen.STAGE_2) {
+			r = rVals[0] + (int) ((rVals[1] - rVals[0]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_1)/(obstacleGen.STAGE_2  - obstacleGen.STAGE_1));
+			g = gVals[0] + (int) ((gVals[1] - gVals[0]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_1)/(obstacleGen.STAGE_2  - obstacleGen.STAGE_1));
+			b = bVals[0] + (int) ((bVals[1] - bVals[0]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_1)/(obstacleGen.STAGE_2  - obstacleGen.STAGE_1));
+			r2 = r2Vals[1];
+			g2 = g2Vals[1];
+			b2 = b2Vals[1];
+		}
+		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_2 && obstacleGen.getCounter() < obstacleGen.STAGE_3) {
+			r = rVals[1] + (int) ((rVals[2] - rVals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+			g = gVals[1] + (int) ((gVals[2] - gVals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+			b = bVals[1] + (int) ((bVals[2] - bVals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+			r2 = r2Vals[1] + (int) ((r2Vals[2] - r2Vals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+			g2 = g2Vals[1] + (int) ((g2Vals[2] - g2Vals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+			b2 = b2Vals[1] + (int) ((b2Vals[2] - b2Vals[1]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_2)/(obstacleGen.STAGE_3  - obstacleGen.STAGE_2));
+		}
+		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_3 && obstacleGen.getCounter() < obstacleGen.STAGE_4) {
+			r = rVals[2] + (int) ((rVals[3] - rVals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
+			g = gVals[2] + (int) ((gVals[3] - gVals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
+			b = bVals[2] + (int) ((bVals[3] - bVals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
+			r2 = r2Vals[2] + (int) ((r2Vals[3] - r2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
+			g2 = g2Vals[2] + (int) ((g2Vals[3] - g2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
+			b2 = b2Vals[2] + (int) ((b2Vals[3] - b2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
 			
 		}
-		else if(obstacleGen.getCounter() > obstacleGen.STAGE_2 && obstacleGen.getCounter() < obstacleGen.STAGE_3) {
-			
-		}
-		else if(obstacleGen.getCounter() > obstacleGen.STAGE_3 && obstacleGen.getCounter() < obstacleGen.STAGE_4) {
-			
-		}
-		else if(obstacleGen.getCounter() > obstacleGen.STAGE_4) {
+		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_4) {
 			
 		}
 		
+        Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
+	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
         

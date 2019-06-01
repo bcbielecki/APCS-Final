@@ -14,11 +14,11 @@ public class ObstacleGen {
 	private GraphicsContext gc;
 	private List<Obstacle> obstacles;
 	private int counter;
-	private int initialSpawn = 4;
-	public final int STAGE_1 = 60;
-	public final int STAGE_2 = 120;
-	public final int STAGE_3 = 180;
-	public final int STAGE_4 = 240;
+	private int initialSpawn = 10;
+	public final int STAGE_1 = 3000;
+	public final int STAGE_2 = 6000;
+	public final int STAGE_3 = 9000;
+	public final int STAGE_4 = 10000;
 	
 	public ObstacleGen(GraphicsContext gc) {
 		this.gc = gc;
@@ -50,17 +50,21 @@ public class ObstacleGen {
 			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
 						200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
-		else if(counter > STAGE_1 && counter < STAGE_2) {
-			
+		else if(counter >= STAGE_1 && counter < STAGE_2) {
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
-		else if(counter > STAGE_2 && counter < STAGE_3) {
-			
+		else if(counter >= STAGE_2 && counter < STAGE_3) {
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
-		else if(counter > STAGE_3 && counter < STAGE_4) {
-			
+		else if(counter >= STAGE_3 && counter < STAGE_4) {
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
-		else if(counter > STAGE_4) {
-			
+		else if(counter >= STAGE_4) {
+			obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * ((gc.getCanvas().getHeight() * 2)) - 2 * 100,
+					200.0, 100.0, 0, 2 * Math.random()+ 2.0);
 		}
 		
 		obstacles.add(obs);
