@@ -11,8 +11,8 @@ import java.io.FileNotFoundException;
 
 import javafx.scene.image.Image;
 
-public class Cloud extends Obstacle {
-	public Cloud(double x, double y, double w, double h, double vx, double vy) {
+public class Plane extends Obstacle {
+	public Plane(double x, double y, double w, double h, double vx, double vy) {
 		super(setImage(), x, y, w, h, vx, vy);
 
 	}
@@ -20,7 +20,7 @@ public class Cloud extends Obstacle {
 	private static Image setImage() {
 		Image img = null;
 		try {
-			img = new Image(new FileInputStream("media/images/obstacles/cloud.png"));
+			img = new Image(new FileInputStream("media/images/obstacles/airplane.png"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -28,19 +28,8 @@ public class Cloud extends Obstacle {
 	}
 	
 	@Override
-	public boolean fromTop() {
-		return true;
-	}
-	
-	@Override
 	public boolean checkPlayerCollision(Player sprite) {
-        if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
-            return false; 
-        } 
-        if (y + 0.25 * h < sprite.getY() || sprite.getY() + sprite.getHeight() < y + 0.25 * h) { 
-            return false; 
-        } 
-        return true; 
+        return checkCollision(sprite);
 	}
 	
 	@Override
@@ -55,9 +44,7 @@ public class Cloud extends Obstacle {
 	}
 	
 	@Override
-	public double[][] getCornerCoords() {
-		double[][] coords = {{x, y + 0.25 * h}, {x + w, y + 0.25 * h}, {x, y + h}, {x + w, y + h}};
-		return coords;
+	public boolean fromTop() {
+		return false;
 	}
-	
 }

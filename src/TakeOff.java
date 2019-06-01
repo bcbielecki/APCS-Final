@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * @author Benjamen Bielecki, Dennis Perepech
  * @version 1.0
- * 
+ *
  */
 import javafx.scene.text.*;
 
@@ -19,6 +19,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
@@ -40,38 +41,40 @@ import javafx.scene.input.KeyCode;
 public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
-	//private boolean gameOver = false;
+	private boolean gameOver;
 	private ObstacleGen obstacleGen;
-	
+	Timeline tme;
+
 	int[] rVals = {240, 0, 0, 0};
 	int[] gVals = {245, 10, 0, 0};
 	int[] bVals = {250, 96, 0, 0};
 	int[] r2Vals = {120, 240, 0, 0};
 	int[] g2Vals = {190, 245, 10, 0};
 	int[] b2Vals = {250, 250, 96, 0};
-	
-	
+
+
 	public TakeOff() {
+		gameOver = false;
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
-		
-		
+
+
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
 	}
-	
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		//create the canvas
 		Canvas canvas = new Canvas(screenWidth, screenHeight);
 		canvas.setFocusTraversable(true);
-		
+
 		//Create GraphicContext object
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
+
 		obstacleGen = new ObstacleGen(gc);
-		
+
 		//Loop frequency
 		Timeline tme = new Timeline(new KeyFrame(Duration.millis(16.66), e -> run(gc)));
 		Timeline clock = new Timeline(new KeyFrame(Duration.millis(10), e -> obstacleGen.counterAdd()));
@@ -82,49 +85,75 @@ public class TakeOff extends Application {
 		primaryStage.setScene(new Scene(new StackPane(canvas)));
 		primaryStage.show();
 		primaryStage.setFullScreen(true);
-		tme.play(); 
+		tme.play();
 		clock.play();
-		
+
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
-        	if(e.getCode() == KeyCode.W && player.getY() > 0) {
-                player.setVY(-5f);
-            }if (e.getCode() == KeyCode.A && player.getX() > 0) {
-                player.setVX(-5f);
-            }if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
-                player.setVY(5f);
-            }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
-                player.setVX(5f);
+        	if(!gameOver) {
+		    	if(e.getCode() == KeyCode.W && player.getY() > 0) {
+		            player.setVY(-5f);
+		        }if (e.getCode() == KeyCode.A && player.getX() > 0) {
+		            player.setVX(-5f);
+		        }if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
+		            player.setVY(5f);
+		        }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
+		            player.setVX(5f);
+		    	}
+        	}
+        	else {
+        		primaryStage.close();
+        		Platform.runLater( () -> {
+					try {
+						new TakeOff().start( new Stage() );
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} );
         	}
         });
 
         canvas.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.W) {
-            	player.setVY(0f);
-            } else if (e.getCode() == KeyCode.A) {
-            	player.setVX(0f);
-            } else if (e.getCode() == KeyCode.S) {
-            	player.setVY(0f);
-            } else if (e.getCode() == KeyCode.D) {
-            	player.setVX(0f);
-            }
+        	if(!gameOver) {
+	            if (e.getCode() == KeyCode.W) {
+	            	player.setVY(0f);
+	            } else if (e.getCode() == KeyCode.A) {
+	            	player.setVX(0f);
+	            } else if (e.getCode() == KeyCode.S) {
+	            	player.setVY(0f);
+	            } else if (e.getCode() == KeyCode.D) {
+	            	player.setVX(0f);
+	            }
+        	}
+        	else {
+        		primaryStage.close();
+        		Platform.runLater( () -> {
+					try {
+						new TakeOff().start( new Stage() );
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} );
+        	}
         });
 	}
-        
-	
-		
+
+
+
 	//Loop method
 	private void run(GraphicsContext gc) {
-		
+
 		int r = 0;
 		int g = 0;
 		int b = 0;
 		int r2 = 0;
 		int g2 = 0;
 		int b2 = 0;
-		
- 
-        
+
+
+
 		if(obstacleGen.getCounter() >= 0 && obstacleGen.getCounter() < obstacleGen.STAGE_1) {
 			r = rVals[0];
 			g = gVals[0];
@@ -156,32 +185,53 @@ public class TakeOff extends Application {
 			r2 = r2Vals[2] + (int) ((r2Vals[3] - r2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
 			g2 = g2Vals[2] + (int) ((g2Vals[3] - g2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
 			b2 = b2Vals[2] + (int) ((b2Vals[3] - b2Vals[2]) * (double) (obstacleGen.getCounter()  - obstacleGen.STAGE_3)/(obstacleGen.STAGE_4  - obstacleGen.STAGE_3));
-			
+
+			gc.setFill(Color.BLACK);
+			gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
+
+			if(obstacleGen.checkCollisionPlayerAll(player)) {
+				gameOver = true;
+				gc.fillText("NICE JOB! YOU LASTED " + obstacleGen.getCounter() + " SECONDS!", 50, 200);
+			}
+
+			gc.fillText("" + obstacleGen.getCounter(), 100, 50);
+			System.out.println(obstacleGen.getCounter());
+
+			if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 240 && obstacleGen.getCounter() % 10 == 0) {
+				obstacleGen.makeHarder();
+			}
+			else if(obstacleGen.getCounter() % 11 == 0) {
+				obstacleGen.makeReadyToUpdate();
+			}
+
+
+			gc.setStroke(Color.WHITE);
+			gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
 		}
 		else if(obstacleGen.getCounter() >= obstacleGen.STAGE_4) {
-			
+
 		}
-		
+
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
-        
+
 		player.move(gc);
 		player.draw(gc);
-		
+
 		obstacleGen.drawAll();
 		obstacleGen.moveAll();
-		
+
 		gc.setFill(Color.BLACK);
 		gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
 		gc.fillText("" + obstacleGen.getCounter(), 100, 50);
 		System.out.println(obstacleGen.getCounter());
-		
+
 		gc.setStroke(Color.WHITE);
 		gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
 	}
-	
+
 	//Run application
 	public static void main(String[] args) {
         Application.launch(args);

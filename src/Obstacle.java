@@ -17,10 +17,13 @@ public abstract class Obstacle extends Sprite {
 	
 	public abstract boolean checkPlayerCollision(Player sprite);
 	
+	public abstract boolean fromTop();
+	
 	public void move(GraphicsContext gc) {
 		x += vx;
 		y += vy;
 	}
+	
 	/*public boolean checkSegmentOverlap(double x, double y, double i, double j, double a, double b, double c, double d) {
 		double t;
 		double u; 
