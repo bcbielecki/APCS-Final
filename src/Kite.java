@@ -44,17 +44,6 @@ public class Kite extends Obstacle {
 	}
 	
 	@Override
-	public boolean checkCollision(Sprite sprite) {
-        if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
-            return false; 
-        } 
-        if (y + h < sprite.getY() || sprite.getY() + sprite.getHeight() < y) { 
-            return false; 
-        } 
-        return true; 
-	}
-	
-	@Override
 	public double[][] getCornerCoords() {
 		double[][] coords = {{x, y}, {x + w, y}, {x, y + 0.5 * h}, {x + w, y + 0.5 * h}};
 		return coords;

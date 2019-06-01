@@ -33,17 +33,6 @@ public class Plane extends Obstacle {
 	}
 	
 	@Override
-	public boolean checkCollision(Sprite sprite) {
-        if (x > (sprite.getX() + sprite.getWidth()) || (sprite.getX() > x + w)) { 
-            return false; 
-        } 
-        if (y + h < sprite.getY() || sprite.getY() + sprite.getHeight() < y) { 
-            return false; 
-        } 
-        return true; 
-	}
-	
-	@Override
 	public boolean fromTop() {
 		return false;
 	}
