@@ -20,7 +20,8 @@ public class ObstacleGen {
 	public final int STAGE_3 = 90000;
 	public final int STAGE_4 = 120000;
 	
-	public final int OBSTACLE_LIMIT = 10;
+	private final int OBSTACLE_LIMIT = 10;
+	private boolean reduction;
 	
 	private double speedIncrease;
 	private boolean readyToUpdate;
@@ -29,6 +30,7 @@ public class ObstacleGen {
 		counter = 0;
 		speedIncrease = 0;
 		readyToUpdate = false;
+		reduction = false;
 
 		obstacles = new ArrayList<Obstacle>();
 		for(int i = 0; i < initialSpawn; i++) {
@@ -46,7 +48,15 @@ public class ObstacleGen {
 			if(obstacles.get(i).getY() > gc.getCanvas().getHeight() + 50 || obstacles.get(i).getX() < 0 - obstacles.get(i).getWidth() - 50
 					|| obstacles.get(i).getX() > gc.getCanvas().getWidth() + 50) { //50 as buffer to ensure off screen
 				obstacles.remove(i);
-				spawn();
+				if(counter >= STAGE_2 && counter < STAGE_3 ) {
+					if(obstacles.size() < OBSTACLE_LIMIT / 2) {
+						spawn();
+					}
+				}
+				else {
+					spawn();
+				}
+				
 			}
 		}
 	}
