@@ -21,7 +21,6 @@ public class ObstacleGen {
 	public final int STAGE_4 = 120000;
 	
 	private final int OBSTACLE_LIMIT = 10;
-	private boolean reduction;
 	
 	private double speedIncrease;
 	private boolean readyToUpdate;
@@ -30,7 +29,6 @@ public class ObstacleGen {
 		counter = 0;
 		speedIncrease = 0;
 		readyToUpdate = false;
-		reduction = false;
 
 		obstacles = new ArrayList<Obstacle>();
 		for(int i = 0; i < initialSpawn; i++) {
