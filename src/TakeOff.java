@@ -38,12 +38,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
 
+
 public class TakeOff extends Application {
 	private int screenWidth, screenHeight;
 	private Player player;
 	private boolean gameOver;
 	private ObstacleGen obstacleGen;
-	Timeline tme;
+	private Timeline tme;
+	private int endTime;
 
 	int[] rVals = {240, 0, 0, 0};
 	int[] gVals = {245, 10, 0, 0};
@@ -76,7 +78,7 @@ public class TakeOff extends Application {
 		obstacleGen = new ObstacleGen(gc);
 
 		//Loop frequency
-		Timeline tme = new Timeline(new KeyFrame(Duration.millis(16.66), e -> run(gc)));
+		Timeline tme = new Timeline(new KeyFrame(Duration.millis(17), e -> run(gc)));
 		Timeline clock = new Timeline(new KeyFrame(Duration.millis(10), e -> obstacleGen.counterAdd()));
 		tme.setCycleCount(Timeline.INDEFINITE);
 		clock.setCycleCount(Timeline.INDEFINITE);
@@ -91,7 +93,7 @@ public class TakeOff extends Application {
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
         	if(!gameOver) {
-		    	if(e.getCode() == KeyCode.W && player.getY() > 0) {
+		    	if (e.getCode() == KeyCode.W && player.getY() > 0) {
 		            player.setVY(-5f);
 		        }if (e.getCode() == KeyCode.A && player.getX() > 0) {
 		            player.setVX(-5f);
@@ -99,10 +101,14 @@ public class TakeOff extends Application {
 		            player.setVY(5f);
 		        }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
 		            player.setVX(5f);
-		    	}
+		        }
+
         	}
         	else {
+        		if(e.getCode() == KeyCode.ENTER) {
         		primaryStage.close();
+        		
+        		/*primaryStage.show();
         		Platform.runLater( () -> {
 					try {
 						new TakeOff().start( new Stage() );
@@ -110,9 +116,10 @@ public class TakeOff extends Application {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				} );
+				});*/
+        		}
         	}
-        });
+        	});
 
         canvas.setOnKeyReleased(e -> {
         	if(!gameOver) {
@@ -126,17 +133,6 @@ public class TakeOff extends Application {
 	            	player.setVX(0f);
 	            }
         	}
-        	else {
-        		primaryStage.close();
-        		Platform.runLater( () -> {
-					try {
-						new TakeOff().start( new Stage() );
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} );
-        	}
         });
 	}
 
@@ -144,15 +140,12 @@ public class TakeOff extends Application {
 
 	//Loop method
 	private void run(GraphicsContext gc) {
-
 		int r = 0;
 		int g = 0;
 		int b = 0;
 		int r2 = 0;
 		int g2 = 0;
 		int b2 = 0;
-
-
 
 		if(obstacleGen.getCounter() >= 0 && obstacleGen.getCounter() < obstacleGen.STAGE_1) {
 			r = rVals[0];
@@ -192,19 +185,30 @@ public class TakeOff extends Application {
 
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
-	    
-	    gc.setFill(Color.BLACK);
-		gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
 
-		/*if(obstacleGen.checkCollisionPlayerAll(player)) {
+		if(obstacleGen.checkCollisionPlayerAll(player)) {
+			if(!gameOver) {
+				endTime = obstacleGen.getCounter() / 1000;
+			}
 			gameOver = true;
-			gc.fillText("NICE JOB! YOU LASTED " + obstacleGen.getCounter() + " SECONDS!", 50, 200);
-		}*/
+			Image img = null;
+			try {
+				img = new Image(new FileInputStream("media/images/title.png"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			gc.setFill(Color.WHITE);
+			gc.fillRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+			gc.setFill(Color.BLACK);
+			gc.fillText("GAME OVER! YOU LASTED " + endTime + " SECONDS!\nPRESS ENTER TO CLOSE THE GAME", gc.getCanvas().getWidth() / 4, gc.getCanvas().getHeight() / 2);
+			gc.drawImage(img, gc.getCanvas().getWidth() / 4, gc.getCanvas().getWidth() * 0.75, 500, 250);
+			tme.stop();
+		}
 		
-		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 12000 && obstacleGen.getCounter() % 1000 == 0) {
+		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 120000 && obstacleGen.getCounter() % 5100 < 20) {
 			obstacleGen.makeHarder();
 		}
-		else if(obstacleGen.getCounter() % 11000 == 0) {
+		if (obstacleGen.getCounter() % 5200 < 20) {
 			obstacleGen.makeReadyToUpdate();
 		}
 
@@ -221,12 +225,16 @@ public class TakeOff extends Application {
 		obstacleGen.moveAll();
 
 		gc.setFill(Color.BLACK);
-		gc.fillText("" + obstacleGen.checkCollisionPlayerAll(player), 50, 50);
-		gc.fillText("" + obstacleGen.getCounter() / 1000, 100, 50);
-		System.out.println(obstacleGen.getCounter() / 1000);
-
-		gc.setStroke(Color.WHITE);
-		gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
+		if(obstacleGen.getCounter() > obstacleGen.STAGE_2) {
+			gc.setFill(Color.WHITE);
+		}
+		gc.setFont(new Font("Arial", 25));
+		if(obstacleGen.getCounter() / 1000 == 0) {
+			gc.fillText("T-Plus: " + obstacleGen.getCounter() / 1000 + " Second", 0, gc.getCanvas().getHeight() - 5);
+		}
+		else {
+			gc.fillText("T-Plus: " + obstacleGen.getCounter() / 1000 + " Seconds", 0, gc.getCanvas().getHeight() - 5);
+		}
 	}
 
 	//Run application
