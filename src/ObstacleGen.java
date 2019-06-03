@@ -20,7 +20,7 @@ public class ObstacleGen {
 	public final int STAGE_3 = 90000;
 	public final int STAGE_4 = 120000;
 	
-	private int obstacleLimit = 8;
+	private int obstacleLimit = 5;
 	
 	private double speedIncrease;
 	public ObstacleGen(GraphicsContext gc) {
@@ -73,8 +73,8 @@ public class ObstacleGen {
 		}
 		else if(counter >= STAGE_1 && counter < STAGE_2) {
 			if(Math.random() < 0.5) {
-				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 0.5) - 200,
-						200.0, 100.0, 0, 2 * Math.random() + 2.0 + speedIncrease);
+				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2) - 200,
+						200.0, 100.0, 0, 2 * Math.random() +1.0 + speedIncrease);
 			}
 			else {
 				obs = new Plane(gc.getCanvas().getWidth() + Math.random() * 200, Math.random() * gc.getCanvas().getHeight(),
@@ -84,16 +84,16 @@ public class ObstacleGen {
 		else if(counter >= STAGE_2 && counter < STAGE_3) {
 			if(Math.random() < 0.5) {
 			obs = new Sputnik(0 - 240 - Math.random() * 240, Math.random() * gc.getCanvas().getHeight(),
-					240.0, 240.0, 7.0 + speedIncrease, 1.0 + speedIncrease);
+					240.0, 240.0, 7.0 + speedIncrease, 0.5 + speedIncrease);
 			}
 			else if(Math.random() < 0.6) {
 				if(Math.random() < 0.5) {
 					obs = new Cosmonaut(0 - 86 - Math.random() * 86, Math.random() * gc.getCanvas().getHeight(), 
-							86, 120, 5.0 + speedIncrease, 2.0 + speedIncrease);
+							86, 120, 5.0 + speedIncrease, 1.0 + speedIncrease);
 				}
 				else {
 					obs = new Cosmonaut(gc.getCanvas().getWidth() + Math.random() * 86, Math.random() * gc.getCanvas().getHeight(),
-							86, 120, -5.0 - speedIncrease, 2.0 + speedIncrease);
+							86, 120, -5.0 - speedIncrease, 1.0 + speedIncrease);
 				}
 			}
 			else {
