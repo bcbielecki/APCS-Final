@@ -90,6 +90,7 @@ public class TakeOff extends Application {
         Media hit = new Media(Paths.get(bip).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.setVolume(0.3);
+        mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
         mediaPlayer.play();
 
 	      // handle key events
