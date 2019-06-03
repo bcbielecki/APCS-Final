@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class ObstacleGen {
 	private GraphicsContext gc;

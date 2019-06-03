@@ -19,15 +19,15 @@ public class Asteroid extends Obstacle {
 	private static Image setImage() {
 		Image img = null;
 		try {
-			double temp = Math.random();
+			/*double temp = Math.random();
 			int num = 1;
 			if(temp >= 0 && temp < 0.33) {
 				num = 2;
 			}
 			else if(temp >= 0.33 && temp < 0.66) {
 				num = 3;
-			}
-			img = new Image(new FileInputStream("media/images/obstacles/asteroid" + num + ".png"));
+			}*/
+			img = new Image(new FileInputStream("media/images/obstacles/asteroid" + 1 + ".png"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -11,29 +11,23 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.nio.file.Paths;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
@@ -89,6 +83,12 @@ public class TakeOff extends Application {
 		primaryStage.setFullScreen(true);
 		tme.play();
 		clock.play();
+		
+		String bip = "media/sounds/soundtrack.mp3";
+        Media hit = new Media(Paths.get(bip).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(0.3);
+        mediaPlayer.play();
 
 	      // handle key events
         canvas.setOnKeyPressed(e -> {
@@ -186,7 +186,7 @@ public class TakeOff extends Application {
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
 
-		if(obstacleGen.checkCollisionPlayerAll(player)) {
+		/*if(obstacleGen.checkCollisionPlayerAll(player)) {
 			if(!gameOver) {
 				endTime = obstacleGen.getCounter() / 1000;
 			}
@@ -203,7 +203,7 @@ public class TakeOff extends Application {
 			gc.fillText("GAME OVER! YOU LASTED " + endTime + " SECONDS!\nPRESS ENTER TO CLOSE THE GAME", gc.getCanvas().getWidth() / 4, gc.getCanvas().getHeight() / 2);
 			gc.drawImage(img, gc.getCanvas().getWidth() / 4, gc.getCanvas().getWidth() * 0.75, 500, 250);
 			tme.stop();
-		}
+		}*/
 		
 		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 120000 && obstacleGen.getCounter() % 5100 < 20) {
 			obstacleGen.makeHarder();
@@ -211,10 +211,10 @@ public class TakeOff extends Application {
 		if (obstacleGen.getCounter() % 5200 < 20) {
 			obstacleGen.makeReadyToUpdate();
 		}
+		
 
-
-		gc.setStroke(Color.WHITE);
-		gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
+		//gc.setStroke(Color.WHITE);
+		//gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
 

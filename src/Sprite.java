@@ -38,8 +38,8 @@ public abstract class Sprite {
 	
 	public void draw(GraphicsContext gc) {
 		gc.drawImage(img, x, y, w, h);
-		gc.setFill(Color.WHITE);
-		gc.strokeRect(getCornerCoords()[0][0], getCornerCoords()[0][1], getCornerCoords()[1][0] - getCornerCoords()[0][0], getCornerCoords()[2][1] - getCornerCoords()[1][1]);
+		//gc.setFill(Color.WHITE);
+		//gc.strokeRect(getCornerCoords()[0][0], getCornerCoords()[0][1], getCornerCoords()[1][0] - getCornerCoords()[0][0], getCornerCoords()[2][1] - getCornerCoords()[1][1]);
 	}
 	
 
