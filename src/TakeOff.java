@@ -40,6 +40,7 @@ public class TakeOff extends Application {
 	private ObstacleGen obstacleGen;
 	private Timeline tme;
 	private int endTime;
+	private boolean easyMode;
 
 	int[] rVals = {240, 0, 0, 0};
 	int[] gVals = {245, 10, 0, 0};
@@ -51,6 +52,7 @@ public class TakeOff extends Application {
 
 	public TakeOff() {
 		gameOver = false;
+		easyMode = false;
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
@@ -101,6 +103,13 @@ public class TakeOff extends Application {
 		            player.setVY(5f);
 		        }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
 		            player.setVX(5f);
+		        }if (e.getCode() == KeyCode.P) {
+		        	if(!easyMode) {
+		        		easyMode = true;
+		        	}
+		        	else {
+		        		easyMode = false;
+		        	}
 		        }
 
         	}
@@ -186,7 +195,7 @@ public class TakeOff extends Application {
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
 
-		/*if(obstacleGen.checkCollisionPlayerAll(player)) {
+		if(obstacleGen.checkCollisionPlayerAll(player) && !easyMode) {
 			if(!gameOver) {
 				endTime = obstacleGen.getCounter() / 1000;
 			}
@@ -203,7 +212,7 @@ public class TakeOff extends Application {
 			gc.fillText("GAME OVER! YOU LASTED " + endTime + " SECONDS!\nPRESS ENTER TO CLOSE THE GAME", gc.getCanvas().getWidth() / 4, gc.getCanvas().getHeight() / 2);
 			gc.drawImage(img, gc.getCanvas().getWidth() / 4, gc.getCanvas().getWidth() * 0.75, 500, 250);
 			tme.stop();
-		}*/
+		}
 		
 		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 120000 && obstacleGen.getCounter() % 5100 < 20) {
 			obstacleGen.makeHarder();
@@ -225,16 +234,11 @@ public class TakeOff extends Application {
 		obstacleGen.moveAll();
 
 		gc.setFill(Color.BLACK);
-		if(obstacleGen.getCounter() > obstacleGen.STAGE_2) {
+		if(obstacleGen.getCounter() > obstacleGen.STAGE_3) {
 			gc.setFill(Color.WHITE);
 		}
 		gc.setFont(new Font("Arial", 25));
-		if(obstacleGen.getCounter() / 1000 == 0) {
-			gc.fillText("T-Plus: " + obstacleGen.getCounter() / 1000 + " Second", 0, gc.getCanvas().getHeight() - 5);
-		}
-		else {
-			gc.fillText("T-Plus: " + obstacleGen.getCounter() / 1000 + " Seconds", 0, gc.getCanvas().getHeight() - 5);
-		}
+		gc.fillText("T-Plus: " + obstacleGen.getCounter() / 1000 + " Seconds", 0, gc.getCanvas().getHeight() - 5);
 	}
 
 	//Run application

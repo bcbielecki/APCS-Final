@@ -20,7 +20,7 @@ public class ObstacleGen {
 	public final int STAGE_3 = 90000;
 	public final int STAGE_4 = 120000;
 	
-	private int obstacleLimit = 10;
+	private int obstacleLimit = 8;
 	
 	private double speedIncrease;
 	public ObstacleGen(GraphicsContext gc) {
@@ -47,10 +47,12 @@ public class ObstacleGen {
 			}
 		}
 		if(counter > STAGE_2) {
-			obstacleLimit = 3;
+			obstacleLimit = 2;
 		}
 		else if(counter > STAGE_4) {
 			obstacleLimit = 10;
+			spawn();
+			spawn();
 		}
 		if(counter > STAGE_2 && obstacles.size() == 0) {
 			spawn();
@@ -65,7 +67,7 @@ public class ObstacleGen {
 						55, 180, 0, Math.random() + 1 + speedIncrease);
 			}
 			else {
-				obs = new Kite(0 - 55 - Math.random() * 55, Math.random() * gc.getCanvas().getHeight(),
+				obs = new Kite(0 - 55 - Math.random() * 3 * 55, Math.random() * gc.getCanvas().getHeight(),
 						55, 180, 1.0 + speedIncrease, 1.0 + speedIncrease);
 			}
 		}
@@ -87,11 +89,11 @@ public class ObstacleGen {
 			else if(Math.random() < 0.6) {
 				if(Math.random() < 0.5) {
 					obs = new Cosmonaut(0 - 86 - Math.random() * 86, Math.random() * gc.getCanvas().getHeight(), 
-							86, 120, -5.0 - speedIncrease, 2.0 + speedIncrease);
+							86, 120, 5.0 + speedIncrease, 2.0 + speedIncrease);
 				}
 				else {
-					obs = new Cosmonaut(0 - 86 - Math.random() * 86, Math.random() * gc.getCanvas().getHeight(), 
-							86, 120, 5.0 - speedIncrease, 2.0 + speedIncrease);
+					obs = new Cosmonaut(gc.getCanvas().getWidth() + Math.random() * 86, Math.random() * gc.getCanvas().getHeight(),
+							86, 120, -5.0 - speedIncrease, 2.0 + speedIncrease);
 				}
 			}
 			else {
@@ -189,7 +191,7 @@ public class ObstacleGen {
 					}
 					else {
 						while(checkCollisionAllObstacles(obstacles.get(i), i)) {
-							obstacles.get(i).setX(0 - obstacles.get(i).getWidth() - Math.random() * obstacles.get(i).getWidth());
+							obstacles.get(i).setX(0 - obstacles.get(i).getWidth() - Math.random() * 4 * obstacles.get(i).getWidth());
 							obstacles.get(i).setY(Math.random() * gc.getCanvas().getHeight());
 						}
 					}
@@ -216,9 +218,9 @@ public class ObstacleGen {
 			if(obstacles.size() < obstacleLimit) {
 				spawn();
 			}
-			speedIncrease += 0.2;
+			speedIncrease += 0.3;
 			for(int i = 0; i < obstacles.size(); i++) {
-				obstacles.get(i).setVY(obstacles.get(i).getVY() + 0.2);
+				obstacles.get(i).setVY(obstacles.get(i).getVY() + 0.3);
 			}
 		}
 	}
