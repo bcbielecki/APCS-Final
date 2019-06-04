@@ -20,7 +20,7 @@ public class ObstacleGen {
 	public final int STAGE_3 = 90000;
 	public final int STAGE_4 = 120000;
 	
-	private int obstacleLimit = 5;
+	private int obstacleLimit = 8;
 	
 	private double speedIncrease;
 	public ObstacleGen(GraphicsContext gc) {
@@ -67,14 +67,14 @@ public class ObstacleGen {
 						55, 180, 0, Math.random() + 1 + speedIncrease);
 			}
 			else {
-				obs = new Kite(0 - 55 - Math.random() * 3 * 55, Math.random() * gc.getCanvas().getHeight(),
+				obs = new Kite(0 - 55 - Math.random() * 2.5 * 55, Math.random() * gc.getCanvas().getHeight(),
 						55, 180, 1.0 + speedIncrease, 1.0 + speedIncrease);
 			}
 		}
 		else if(counter >= STAGE_1 && counter < STAGE_2) {
 			if(Math.random() < 0.5) {
 				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2) - 200,
-						200.0, 100.0, 0, 2 * Math.random() +1.0 + speedIncrease);
+						200.0, 100.0, 0, 2 * Math.random() + 1.0 + speedIncrease);
 			}
 			else {
 				obs = new Plane(gc.getCanvas().getWidth() + Math.random() * 200, Math.random() * gc.getCanvas().getHeight(),
@@ -82,14 +82,15 @@ public class ObstacleGen {
 			}
 		}
 		else if(counter >= STAGE_2 && counter < STAGE_3) {
-			if(Math.random() < 0.5) {
+			double chance = Math.random();
+			if(chance < 0.5) {
 			obs = new Sputnik(0 - 240 - Math.random() * 240, Math.random() * gc.getCanvas().getHeight(),
 					240.0, 240.0, 7.0 + speedIncrease, 0.5 + speedIncrease);
 			}
-			else if(Math.random() < 0.6) {
+			else if(chance < 0.55) {
 				if(Math.random() < 0.5) {
 					obs = new Cosmonaut(0 - 86 - Math.random() * 86, Math.random() * gc.getCanvas().getHeight(), 
-							86, 120, 5.0 + speedIncrease, 1.0 + speedIncrease);
+							86, 120, 5.0 + speedIncrease, 0.0 + speedIncrease);
 				}
 				else {
 					obs = new Cosmonaut(gc.getCanvas().getWidth() + Math.random() * 86, Math.random() * gc.getCanvas().getHeight(),
@@ -97,25 +98,27 @@ public class ObstacleGen {
 				}
 			}
 			else {
+				double scaleFactor = Math.random();
 				if(Math.random() > 0.5) {
 					obs = new Asteroid(gc.getCanvas().getWidth() + Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							25, 25, -5.0 - speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 100, scaleFactor * 100, Math.random() * -8.0 - speedIncrease, 2.0 + speedIncrease);
 				}
 				else {
 					obs = new Asteroid(0 - 150 - Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							25, 25, 5.0 + speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 100, scaleFactor * 100, Math.random() * 8.0 + speedIncrease, 2.0 + speedIncrease);
 				}
 			}
 		}
 		else if(counter >= STAGE_3 && counter < STAGE_4) {
 			if(Math.random() < 0.9) {
+				double scaleFactor = Math.random();
 				if(Math.random() > 0.5) {
 					obs = new Asteroid(gc.getCanvas().getWidth() + Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							75, 75, -5.0 - speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 125, scaleFactor * 125, Math.random() * -8.0 - speedIncrease, 2.0 + speedIncrease);
 				}
 				else {
 					obs = new Asteroid(0 - 150 - Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							75, 75, 5.0 + speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 125, scaleFactor * 125, Math.random() * 8.0 + speedIncrease, 2.0 + speedIncrease);
 				}
 			}
 			else {
@@ -124,17 +127,19 @@ public class ObstacleGen {
 			}
 		}
 		else if(counter >= STAGE_4) {
-			if(Math.random() < 0.7) {
+			double chance = Math.random();
+			if(chance < 0.7) {
+				double scaleFactor = Math.random();
 				if(Math.random() > 0.5) {
 					obs = new Asteroid(gc.getCanvas().getWidth() + Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							150, 150, -5.0 - speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 200, scaleFactor * 200, Math.random() * -8.0 - speedIncrease, 2.0 + speedIncrease);
 				}
 				else {
 					obs = new Asteroid(0 - 150 - Math.random() * 150, Math.random() * gc.getCanvas().getHeight(),
-							150, 150, 5.0 + speedIncrease, 2.0 + speedIncrease);
+							scaleFactor * 200, scaleFactor * 200, Math.random() * 8.0 + speedIncrease, 2.0 + speedIncrease);
 				}
 			}
-			else if (Math.random() < 0.95) {
+			else if (chance < 0.95) {
 				obs = new Comet(Math.random() * gc.getCanvas().getWidth() - 25, Math.random() * -1 * (gc.getCanvas().getHeight() * 0.5) - 100,
 						25.0, 100.0, 0, 2 * Math.random() + 2.0 + speedIncrease);
 			}

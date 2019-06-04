@@ -41,4 +41,9 @@ public class Player extends Sprite {
 		x += vx;
 		y += vy;
 	}
+	
+	@Override
+	public double getHeight() {
+		return 0.8 * h;
+	}
 }

@@ -220,11 +220,11 @@ public class TakeOff extends Application {
 			obstacleGen.makeReadyToUpdate();
 		}
 		
-
-		//gc.setStroke(Color.WHITE);
-		//gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
+        
+        //gc.setStroke(Color.BLACK);
+		//gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
 
 		player.move(gc);
 		player.draw(gc);
