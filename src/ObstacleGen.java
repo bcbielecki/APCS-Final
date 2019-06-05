@@ -78,7 +78,7 @@ public class ObstacleGen {
 		}
 		else if(counter >= STAGE_1 && counter < STAGE_2) {
 			if(Math.random() < 0.5) {
-				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight() * 2) - 200,
+				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight()) - 200,
 						200.0, 100.0, 0, 2 * Math.random() + 1.0 + speedIncrease);
 			}
 			else {
@@ -154,7 +154,7 @@ public class ObstacleGen {
 			}
 		}
 		
-		if(counter >= (STAGE_2 - 6500) && counter < STAGE_2) {	
+		if(counter >= (STAGE_2 - 9000) && counter < STAGE_2) {	
 		}
 		else {
 			obstacles.add(obs);
