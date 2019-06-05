@@ -2,7 +2,11 @@
  *
  * @author Benjamen Bielecki, Dennis Perepech
  * @version 1.0
+ * 
+ * Dennis Perepech: Implemented logic for obstacleGen & TakeOff, Implemented sound
+ * Benjamen Bielecki: Developed all images, handled gradient, Implemented key events
  *
+ * Both: Handled class design & inheritance of objects (ie Asteroid, Cosmonaut, etc.)
  */
 import javafx.scene.text.*;
 
@@ -47,14 +51,12 @@ public class TakeOff extends Application {
 	int[] g2Vals = {190, 245, 10, 0};
 	int[] b2Vals = {250, 250, 96, 0};
 
-
 	public TakeOff() {
 		gameOver = false;
 		easyMode = false;
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth()/2;
 		screenHeight = gd.getDisplayMode().getHeight();
-
 
 		player = new Player(screenWidth / 2 + (0.5 * 25), screenHeight - 250, 30, 300);
 	}
@@ -84,6 +86,7 @@ public class TakeOff extends Application {
 		tme.play();
 		clock.play();
 		
+		//Establish Sounds/SOundtrack
 		String bip = "media/sounds/soundtrack.mp3";
         Media hit = new Media(Paths.get(bip).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
@@ -91,7 +94,7 @@ public class TakeOff extends Application {
         mediaPlayer.setCycleCount(AudioClip.INDEFINITE);
         mediaPlayer.play();
 
-	      // handle key events
+	     // handle key events
         canvas.setOnKeyPressed(e -> {
         	if(!gameOver) {
 		    	if (e.getCode() == KeyCode.W && player.getY() > 0) {
@@ -112,19 +115,9 @@ public class TakeOff extends Application {
 		        }
 
         	}
-        	else {
+        	else {//Closes game when gameOver & enter is pressed
         		if(e.getCode() == KeyCode.ENTER) {
         		primaryStage.close();
-        		
-        		/*primaryStage.show();
-        		Platform.runLater( () -> {
-					try {
-						new TakeOff().start( new Stage() );
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				});*/
         		}
         	}
         	});
@@ -148,6 +141,7 @@ public class TakeOff extends Application {
 
 	//Loop method
 	private void run(GraphicsContext gc) {
+		//Handles gradient in background
 		int r = 0;
 		int g = 0;
 		int b = 0;
@@ -194,6 +188,7 @@ public class TakeOff extends Application {
         Stop[] stops = new Stop[] {new Stop(1, Color.rgb(r, g, b)), new Stop(0, Color.rgb(r2, g2, b2))};
 	    LinearGradient lg1 = new LinearGradient(0, 1, 0, 0, true, CycleMethod.NO_CYCLE, stops);
 
+	    //Loads gameOver screen if it is game over
 		if(obstacleGen.checkCollisionPlayerAll(player) && !easyMode) {
 			if(!gameOver) {
 				endTime = obstacleGen.getCounter() / 1000;
@@ -213,6 +208,7 @@ public class TakeOff extends Application {
 			tme.stop();
 		}
 		
+		//Increases difficulty every so often
 		if(obstacleGen.getCounter() > 0 && obstacleGen.getCounter() < 120000 && obstacleGen.getCounter() % 5100 < 20) {
 			obstacleGen.makeHarder();
 		}
@@ -223,15 +219,17 @@ public class TakeOff extends Application {
         gc.setFill(lg1);
         gc.fillRect(0, 0, screenWidth, screenHeight);
         
-        //gc.setStroke(Color.BLACK);
+        //gc.setStroke(Color.BLACK); //Manages player hitbox display
 		//gc.strokeRect(player.getCornerCoords()[0][0], player.getCornerCoords()[0][1], player.getWidth(), player.getHeight());
 
+        //Updates position of objects & draws them
 		player.move(gc);
 		player.draw(gc);
 
 		obstacleGen.drawAll();
 		obstacleGen.moveAll();
 
+		//Manages T-Plus time in bottom left
 		gc.setFill(Color.BLACK);
 		if(obstacleGen.getCounter() > obstacleGen.STAGE_3) {
 			gc.setFill(Color.WHITE);

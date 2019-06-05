@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 
+//Handles generation of obstacles
 public class ObstacleGen {
 	private GraphicsContext gc;
-	private List<Obstacle> obstacles;
+	private List<Obstacle> obstacles; //Array list of all obstacles
 	private int counter;
 	private boolean readyToUpdate;
 	private int initialSpawn = 6;
@@ -21,8 +22,8 @@ public class ObstacleGen {
 	public final int STAGE_4 = 120000;
 	
 	private int obstacleLimit = 8;
-	
 	private double speedIncrease;
+	
 	public ObstacleGen(GraphicsContext gc) {
 		this.gc = gc;
 		counter = 0;
@@ -35,17 +36,20 @@ public class ObstacleGen {
 		}
 
 	}
-
+	
+	//Moves all obstacles, removes obstacle if it is offscreen
 	public void moveAll() {
 		for(int i = 0; i < obstacles.size(); i++) {
 			obstacles.get(i).move(gc);
-			if(obstacles.get(i).getY() > gc.getCanvas().getHeight() + 50 || obstacles.get(i).getX() < 0 - obstacles.get(i).getWidth() - 50
-					|| obstacles.get(i).getX() > gc.getCanvas().getWidth() + 50) { //50 as buffer to ensure off screen
+			if(obstacles.get(i).getY() > gc.getCanvas().getHeight() + 50 || 
+					obstacles.get(i).getX() < 0 - obstacles.get(i).getWidth() - 50 && obstacles.get(i).getVX() < 0 || 
+					obstacles.get(i).getX() > gc.getCanvas().getWidth() + 50 && obstacles.get(i).getVX() > 0 ) { //50 as buffer to ensure off screen
 				obstacles.remove(i);
 				spawn();
 				
 			}
 		}
+		//Also handles obstacleLimit depending on stages
 		if(counter > STAGE_2) {
 			obstacleLimit = 2;
 		}
@@ -59,6 +63,7 @@ public class ObstacleGen {
 		}
 	}
 
+	//Spawns correct object depending on stage
 	public void spawn() {
 		Obstacle obs = null;
 		if(counter >= 0 && counter < STAGE_1) {
@@ -67,7 +72,7 @@ public class ObstacleGen {
 						55, 180, 0, Math.random() + 1 + speedIncrease);
 			}
 			else {
-				obs = new Kite(0 - 55 - Math.random() * 2.5 * 55, Math.random() * gc.getCanvas().getHeight(),
+				obs = new Kite(0 - 55 - Math.random() * 55, Math.random() * gc.getCanvas().getHeight(),
 						55, 180, 1.0 + speedIncrease, 1.0 + speedIncrease);
 			}
 		}
@@ -157,6 +162,7 @@ public class ObstacleGen {
 		adjustObstacles();
 	}
 
+	//Returns true if 1 sprite overlaps another
 	public boolean checkCollisionAll(Sprite thing) {
 		for(Obstacle obs : obstacles) {
 			if(obs.checkCollision(thing)) {
@@ -165,7 +171,8 @@ public class ObstacleGen {
 		}
 		return false;
 	}
-
+	
+	//Returns true if 1 hitbox overlaps the player
 	public boolean checkCollisionPlayerAll(Player thing) {
 		for(Obstacle obs : obstacles) {
 			if(obs.checkPlayerCollision(thing)) {
@@ -175,6 +182,7 @@ public class ObstacleGen {
 		return false;
 	}
 
+	//Moves obstacles to ensure they do not spawn on top of one another
 	public void adjustObstacles() {
 		for(int i = 0; i < obstacles.size(); i++) {
 			if(obstacles.get(i).getY() > 0 || obstacles.get(i).getX() > 0 && obstacles.get(i).getX() < gc.getCanvas().getWidth()) {
@@ -205,6 +213,7 @@ public class ObstacleGen {
 		}
 	}
 
+	//Sees if 1 obstacle from arraylist is overlapping another in the array list & is NOT currently visible
 	public boolean checkCollisionAllObstacles(Sprite thing, int index) {
 		for(int i = 0; i < obstacles.size(); i++) {
 			if(i == index) {
@@ -217,6 +226,7 @@ public class ObstacleGen {
 		return false;
 	}
 
+	//Updates difficulty of game
 	public void makeHarder() {
 		if(readyToUpdate) {
 			readyToUpdate = false;
@@ -230,25 +240,29 @@ public class ObstacleGen {
 		}
 	}
 	
+	//Assists with method above to prevent going off multiple times in 1 second
 	public void makeReadyToUpdate() {
 		readyToUpdate = true;
 	}
 
-
+	//Draws all obstacles
 	public void drawAll() {
 		for(Obstacle obs : obstacles) {
 			obs.draw(gc);
 		}
 	}
-
+	
+	//Updates counter
 	public void counterAdd() {
 		counter += 10;
 	}
-
+	
+	//Returns counter
 	public int getCounter() {
 		return counter;
 	}
 	
+	//Getter for array list size
 	public int getSize() {
 		return obstacles.size();
 	}

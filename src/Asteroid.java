@@ -5,17 +5,19 @@
  * 
  */
 
+//
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javafx.scene.image.Image;
 
+//Obstacles are all practically the same
 public class Asteroid extends Obstacle {
 	public Asteroid(double x, double y, double w, double h, double vx, double vy) {
 		super(setImage(), x, y, w, h, vx, vy);
 
 	}
-
+	//Set image
 	private static Image setImage() {
 		Image img = null;
 		try {
@@ -33,11 +35,13 @@ public class Asteroid extends Obstacle {
 		return img;
 	}
 	
+	//Applies special hitbox here if needed
 	@Override
 	public boolean checkPlayerCollision(Player sprite) {
        return checkCollision(sprite);
 	}
 	
+	//Overrides fromTop method
 	@Override
 	public boolean fromTop() {
 		return false;

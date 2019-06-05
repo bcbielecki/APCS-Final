@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
  * @version 1.0s
  * 
  */
-
+//player class
 public class Player extends Sprite {
 	public Player(double x, double y, double w, double h) {
 		super(getImage(), x, y, w, h, 0, 0);
@@ -22,7 +22,7 @@ public class Player extends Sprite {
 
 	}
 	
-	
+	//Sets image
 	public static Image getImage() {
 		Image img = null;
 		try {
@@ -33,6 +33,7 @@ public class Player extends Sprite {
 		return img;
 	}
 	
+	//Applies special move method to limit movement to just onscreen
 	@Override
 	public void move(GraphicsContext gc) {
 		if((y < 0 && vy < 0) || (y > gc.getCanvas().getHeight() - h && vy > 0) || (x < 0 && vx < 0) || (x > gc.getCanvas().getWidth() - w && vx > 0)) {
@@ -42,6 +43,7 @@ public class Player extends Sprite {
 		y += vy;
 	}
 	
+	//returns special height of rocket (to avoid hitbox being on thrust of rocket)
 	@Override
 	public double getHeight() {
 		return 0.8 * h;
