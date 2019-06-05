@@ -97,13 +97,13 @@ public class TakeOff extends Application {
 	     // handle key events
         canvas.setOnKeyPressed(e -> {
         	if(!gameOver) {
-		    	if (e.getCode() == KeyCode.W && player.getY() > 0) {
+		    	if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP && player.getY() > 0) {
 		            player.setVY(-5f);
-		        }if (e.getCode() == KeyCode.A && player.getX() > 0) {
+		        }if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT && player.getX() > 0) {
 		            player.setVX(-5f);
-		        }if (e.getCode() == KeyCode.S && player.getY() < screenHeight) {
+		        }if (e.getCode() == KeyCode.S  || e.getCode() == KeyCode.DOWN && player.getY() < screenHeight) {
 		            player.setVY(5f);
-		        }if (e.getCode() == KeyCode.D && player.getX() < screenWidth) {
+		        }if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT && player.getX() < screenWidth) {
 		            player.setVX(5f);
 		        }if (e.getCode() == KeyCode.P) {
 		        	if(!easyMode) {
@@ -124,13 +124,13 @@ public class TakeOff extends Application {
 
         canvas.setOnKeyReleased(e -> {
         	if(!gameOver) {
-	            if (e.getCode() == KeyCode.W) {
+	            if (e.getCode() == KeyCode.W || e.getCode() == KeyCode.UP) {
 	            	player.setVY(0f);
-	            } else if (e.getCode() == KeyCode.A) {
+	            } else if (e.getCode() == KeyCode.A || e.getCode() == KeyCode.LEFT) {
 	            	player.setVX(0f);
-	            } else if (e.getCode() == KeyCode.S) {
+	            } else if (e.getCode() == KeyCode.S || e.getCode() == KeyCode.DOWN) {
 	            	player.setVY(0f);
-	            } else if (e.getCode() == KeyCode.D) {
+	            } else if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) {
 	            	player.setVX(0f);
 	            }
         	}
