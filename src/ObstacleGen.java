@@ -77,7 +77,7 @@ public class ObstacleGen {
 			}
 		}
 		else if(counter >= STAGE_1 && counter < STAGE_2) {
-			if(Math.random() < 0.5) {
+			if(Math.random() < 0.7) {
 				obs = new Cloud(Math.random() * gc.getCanvas().getWidth() - 100, Math.random() * -1 * (gc.getCanvas().getHeight()) - 200,
 						200.0, 100.0, 0, 2 * Math.random() + 1.0 + speedIncrease);
 			}
