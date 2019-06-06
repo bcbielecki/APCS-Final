@@ -107,7 +107,7 @@ public class TakeOff extends Application {
 		            player.setVX(5f);
 		        }if (e.getCode() == KeyCode.P) {
 		        	if(!easyMode) {
-		        		easyMode = true;
+		        		//easyMode = true;
 		        	}
 		        	else {
 		        		easyMode = false;
