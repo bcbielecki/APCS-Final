@@ -21,7 +21,7 @@ public class ObstacleGen {
 	public final int STAGE_3 = 90000;
 	public final int STAGE_4 = 120000;
 	
-	private int obstacleLimit = 8;
+	private int obstacleLimit = 6;
 	private double speedIncrease;
 	
 	public ObstacleGen(GraphicsContext gc) {
@@ -72,7 +72,7 @@ public class ObstacleGen {
 						55, 180, 0, Math.random() + 1 + speedIncrease);
 			}
 			else {
-				obs = new Kite(0 - 55 - Math.random() * 55, Math.random() * gc.getCanvas().getHeight(),
+				obs = new Kite(0 - 55 - Math.random() * 55 * 2, Math.random() * gc.getCanvas().getHeight(),
 						55, 180, 1.0 + speedIncrease, 1.0 + speedIncrease);
 			}
 		}
